@@ -1,35 +1,30 @@
 ﻿namespace MealyMooreConversion
 {
-    internal class MealyMachineInfo
+    internal class MealyMachineInfo : IMachineInfo
     {
-        public MealyMachineInfo(string csvData = "")
+        public MealyMachineInfo(List<string> info = null)
         {
             States = new List<string>();
             InnerStates = new List<string>();
             TransitionFunctions = new List<List<string>>();
 
-            if (csvData != "")
+            if (info == null || info.Count == 0)
             {
-                string[] dataLines = csvData.Split("\n");
-                for (int i = 0; i < dataLines.Length - 1; i++)
-                {
-                    if (i == 0)
-                    {
-                        string[] dirtyStates = dataLines[i].Split(";");
-                        States = new ArraySegment<string>(dirtyStates, 1, dirtyStates.Length - 1).ToList();
-                    }
-                    else
-                    {
-                        string[] values = dataLines[i].Split(";");
-                        InnerStates.Add(values[0]);
-                        TransitionFunctions.Add(new ArraySegment<string>(values, 1, values.Length - 1).ToList());
-                    }
-                }
+                return;
+            }
 
-                if (States.Count <= 1)
-                {
-                    throw new ArgumentException("Incorrect input machine. Number of states can not be less than 2");
-                }
+            string[] dirtyStates = info[0].Split(";");
+            States = new ArraySegment<string>(dirtyStates, 1, dirtyStates.Length - 1).ToList();
+            for (int i = 1; i < info.Count; i++)
+            {
+                string[] values = info[i].Split(";");
+                InnerStates.Add(values[0]);
+                TransitionFunctions.Add(new ArraySegment<string>(values, 1, values.Length - 1).ToList());
+            }
+
+            if (States.Count <= 1)
+            {
+                throw new ArgumentException("Incorrect input machine. Number of states can not be less than 2");
             }
         }
 

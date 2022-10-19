@@ -5,20 +5,19 @@
         public const string MEALY_TO_MOORE_CONVERSION_TYPE = "mealy-to-moore";
         public const string MOORE_TO_MEALY_CONVERSION_TYPE = "moore-to-mealy";
 
-        static public string GetInfoFromFile(string filePath)
+        static public List<string> GetInfoFromFile(string filePath)
         {
-            string mealyMachineInfoString = "";
+            List<string> info = new List<string>();
 
             using (StreamReader reader = new StreamReader(@filePath))
             {
                 while (!reader.EndOfStream)
                 {
-                    mealyMachineInfoString += reader.ReadLine();
-                    mealyMachineInfoString += "\n";
+                    info.Add(reader.ReadLine());
                 }
             }
 
-            return mealyMachineInfoString;
+            return info;
         }
 
         static public void PrintDataToFile(string data, string filePath)
@@ -29,7 +28,7 @@
             }
         }
 
-        static public string GetOutData(string infoFromFile, string conversionType)
+        static public string GetOutData(List<string> infoFromFile, string conversionType)
         {
             string outData = "";
 
@@ -56,16 +55,36 @@
             return outData;
         }
 
+        static public IMachineInfo ProcessData(List<string> infoFromFile, string conversionType)
+        {
+            IMachineInfo machineInfo;
+
+            switch(conversionType) {
+                case MEALY_TO_MOORE_CONVERSION_TYPE:
+                    MealyMachineInfo mealyMachineInfo = new MealyMachineInfo(infoFromFile);
+                    machineInfo = mealyMachineInfo.GetConvertedToMoore();
+                    break;
+                case MOORE_TO_MEALY_CONVERSION_TYPE:
+                    MooreMachineInfo mooreMachineInfo = new MooreMachineInfo(infoFromFile);
+                    machineInfo = mooreMachineInfo.GetConvertedToMealy();
+                    break;
+                default:
+                    throw new ArgumentException("Unavailable conversion type");
+            }
+
+            return machineInfo;
+        }
+
         static void Main(string[] args)
         {
             try
             {
                 Args parsedArgs = Args.Parse(args);
+                List<string> infoFromFile = GetInfoFromFile(parsedArgs.SourceFilePath);
 
-                string infoFromFile = GetInfoFromFile(parsedArgs.SourceFilePath);
-                string outData = GetOutData(infoFromFile, parsedArgs.ConversionType);
+                IMachineInfo machineInfo = ProcessData(infoFromFile, parsedArgs.ConversionType);
 
-                PrintDataToFile(outData, parsedArgs.DestinationFilePath);
+                PrintDataToFile(machineInfo.GetCsvData(), parsedArgs.DestinationFilePath);
             }
             catch (Exception ex)
             {

@@ -1,41 +1,33 @@
 ﻿namespace MealyMooreConversion
 {
-    internal class MooreMachineInfo
+    internal class MooreMachineInfo : IMachineInfo
     {
-        public MooreMachineInfo(string csvData = "")
+        public MooreMachineInfo(List<string> info = null)
         {
             OutputAlphabet = new List<string>();
             States = new List<string>();
             InputAlphabet = new List<string>();
             TransitionFunctions = new List<List<string>>();
 
-            if (csvData != "")
+            if (info == null || info.Count == 0)
             {
-                string[] dataLines = csvData.Split("\n");
-                for (int i = 0; i < dataLines.Length - 1; i++)
-                {
-                    if (i == 0)
-                    {
-                        string[] dirtyOutputAlphabet = dataLines[i].Split(";");
-                        OutputAlphabet = new ArraySegment<string>(dirtyOutputAlphabet, 1, dirtyOutputAlphabet.Length - 1).ToList();
-                    }
-                    else if (i == 1)
-                    {
-                        string[] dirtyStates = dataLines[i].Split(";");
-                        States = new ArraySegment<string>(dirtyStates, 1, dirtyStates.Length - 1).ToList();
-                    }
-                    else
-                    {
-                        string[] values = dataLines[i].Split(";");
-                        InputAlphabet.Add(values[0]);
-                        TransitionFunctions.Add(new ArraySegment<string>(values, 1, values.Length - 1).ToList());
-                    }
-                }
+                return;
+            }
 
-                if (States.Count <= 1)
-                {
-                    throw new ArgumentException("Incorrect input machine. Number of states can not be less than 2");
-                }
+            string[] dirtyOutputAlphabet = info[0].Split(";");
+            OutputAlphabet = new ArraySegment<string>(dirtyOutputAlphabet, 1, dirtyOutputAlphabet.Length - 1).ToList();
+            string[] dirtyStates = info[1].Split(";");
+            States = new ArraySegment<string>(dirtyStates, 1, dirtyStates.Length - 1).ToList();
+            for (int i = 2; i < info.Count; i++)
+            {
+                string[] values = info[i].Split(";");
+                InputAlphabet.Add(values[0]);
+                TransitionFunctions.Add(new ArraySegment<string>(values, 1, values.Length - 1).ToList());
+            }
+
+            if (States.Count <= 1)
+            {
+                throw new ArgumentException("Incorrect input machine. Number of states can not be less than 2");
             }
         }
 
