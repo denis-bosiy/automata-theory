@@ -28,33 +28,6 @@
             }
         }
 
-        static public string GetOutData(List<string> infoFromFile, string conversionType)
-        {
-            string outData = "";
-
-            try
-            {
-                if (conversionType == MEALY_TO_MOORE_CONVERSION_TYPE)
-                {
-                    MealyMachineInfo mealyMachineInfo = new MealyMachineInfo(infoFromFile);
-                    MooreMachineInfo mooreMachineInfo = mealyMachineInfo.GetConvertedToMoore();
-                    outData = mooreMachineInfo.GetCsvData();
-                }
-                if (conversionType == MOORE_TO_MEALY_CONVERSION_TYPE)
-                {
-                    MooreMachineInfo mooreMachineInfo = new MooreMachineInfo(infoFromFile);
-                    MealyMachineInfo mealyMachineInfo = mooreMachineInfo.GetConvertedToMealy();
-                    outData = mealyMachineInfo.GetCsvData();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return outData;
-        }
-
         static public IMachineInfo ProcessData(List<string> infoFromFile, string conversionType)
         {
             IMachineInfo machineInfo;
