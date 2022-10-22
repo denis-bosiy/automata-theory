@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MealyMooreMinimization": {
+      "commandName": "Project",
+      "commandLineArgs": "moore input_moore.csv output.csv"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealyMooreMinimization", "MealyMooreMinimization.csproj", "{EDA047D0-30B4-4CA9-8160-3DF297BB6F2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDA047D0-30B4-4CA9-8160-3DF297BB6F2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA047D0-30B4-4CA9-8160-3DF297BB6F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA047D0-30B4-4CA9-8160-3DF297BB6F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA047D0-30B4-4CA9-8160-3DF297BB6F2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B039BE6-B816-4C3B-8441-11B6CD215BB0}
+	EndGlobalSection
+EndGlobal
