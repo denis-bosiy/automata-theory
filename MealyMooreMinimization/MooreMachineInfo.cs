@@ -100,7 +100,10 @@
             {
                 foreach (string transitionFunction in innerStateTransitionFunctions)
                 {
-                    reachableStates.Add(transitionFunction);
+                    if (transitionFunction != States[innerStateTransitionFunctions.IndexOf(transitionFunction)] || innerStateTransitionFunctions.IndexOf(transitionFunction) == 0)
+                    {
+                        reachableStates.Add(transitionFunction);
+                    }
                 }
             }
 
@@ -117,7 +120,13 @@
             }
             foreach (string state in removedStates)
             {
+                int indexOfRemovedState = States.IndexOf(state);
                 States.Remove(state);
+                foreach (List<string> innerStateTransitionFunctions in TransitionFunctions)
+                {
+                    innerStateTransitionFunctions.RemoveAt(indexOfRemovedState);
+                }
+                OutputAlphabet.RemoveAt(indexOfRemovedState);
             }
         }
 

@@ -82,7 +82,10 @@
             {
                 foreach (string transitionFunction in innerStateTransitionFunctions)
                 {
-                    reachableStates.Add(transitionFunction.Split("/")[0]);
+                    if (transitionFunction.Split("/")[0] != States[innerStateTransitionFunctions.IndexOf(transitionFunction)] || innerStateTransitionFunctions.IndexOf(transitionFunction) == 0)
+                    {
+                        reachableStates.Add(transitionFunction.Split("/")[0]);
+                    }
                 }
             }
 
@@ -99,7 +102,12 @@
             }
             foreach (string state in removedStates)
             {
+                int indexOfRemovedState = States.IndexOf(state);
                 States.Remove(state);
+                foreach(List<string> innerStateTransitionFunctions in TransitionFunctions)
+                {
+                    innerStateTransitionFunctions.RemoveAt(indexOfRemovedState);
+                }
             }
         }
 
