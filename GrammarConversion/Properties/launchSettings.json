@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GrammarConversion": {
+      "commandName": "Project",
+      "commandLineArgs": "left input.txt out.txt"
+    }
+  }
+}
