@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NDSMToDSM": {
+      "commandName": "Project",
+      "commandLineArgs": "hard_input.txt hard_output.txt"
+    }
+  }
+}
