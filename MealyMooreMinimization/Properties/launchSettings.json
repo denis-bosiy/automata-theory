@@ -2,7 +2,7 @@
   "profiles": {
     "MealyMooreMinimization": {
       "commandName": "Project",
-      "commandLineArgs": "moore input_unreachable.csv output.csv"
+      "commandLineArgs": "moore course_paper_task_yaroslav.csv output.csv"
     }
   }
 }

@@ -190,11 +190,17 @@
                 foreach (string oldTransitionFunction in innerStateTransitionFunctions)
                 {
                     string oldState = oldTransitionFunction;
-                    foreach (KeyValuePair<string, HashSet<string>> matchingNewStateToStates in matchingNewStatesToStates)
+                    if (oldState.Equals(""))
                     {
-                        if (matchingNewStateToStates.Value.Contains(oldState))
+                        newInnerStateTransitionFunctions.Add("");
+                    } else
+                    {
+                        foreach (KeyValuePair<string, HashSet<string>> matchingNewStateToStates in matchingNewStatesToStates)
                         {
-                            newInnerStateTransitionFunctions.Add(matchingNewStateToStates.Key);
+                            if (matchingNewStateToStates.Value.Contains(oldState))
+                            {
+                                newInnerStateTransitionFunctions.Add(matchingNewStateToStates.Key);
+                            }
                         }
                     }
                 }
@@ -208,36 +214,58 @@
         {
             List<List<string>> minimizedTransitionFunctions = new List<List<string>>();
 
-            foreach (KeyValuePair<string, HashSet<string>> matchingMinimizedStateToStates in matchingMinimizedStatesToStates)
+            foreach (List<string> innerStateTransitionFunctions in TransitionFunctions)
             {
                 List<string> innerStateMinimizedTransitionFunctions = new List<string>();
-                foreach (List<string> innerStateTransitionFunctions in TransitionFunctions)
+                foreach (string innerStateTransitionFunction in innerStateTransitionFunctions.GetRange(0, matchingMinimizedStatesToStates.Count()))
                 {
-                    foreach (KeyValuePair<string, HashSet<string>> localMatchingMinimizedStateToStates in matchingMinimizedStatesToStates)
+                    if (innerStateTransitionFunction == "")
                     {
-                        if (localMatchingMinimizedStateToStates.Value.Contains(innerStateTransitionFunctions[States.IndexOf(matchingMinimizedStateToStates.Value.First())]))
+                        innerStateMinimizedTransitionFunctions.Add("");
+                    } else
+                    {
+                        foreach (KeyValuePair<string, HashSet<string>> localMatchingMinimizedStateToStates in matchingMinimizedStatesToStates)
                         {
-                            innerStateMinimizedTransitionFunctions.Add(localMatchingMinimizedStateToStates.Key);
+                            if (localMatchingMinimizedStateToStates.Value.Contains(innerStateTransitionFunction))
+                            {
+                                innerStateMinimizedTransitionFunctions.Add(localMatchingMinimizedStateToStates.Key);
+                            }
                         }
                     }
                 }
-                if (minimizedTransitionFunctions.Count != innerStateMinimizedTransitionFunctions.Count)
-                {
-                    foreach (string transitionFunction in innerStateMinimizedTransitionFunctions)
-                    {
-                        minimizedTransitionFunctions.Add(new List<string>() { transitionFunction });
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < minimizedTransitionFunctions.Count; i++)
-                    {
-                        minimizedTransitionFunctions[i].Add(innerStateMinimizedTransitionFunctions[i]);
-                    }
-                }
+                minimizedTransitionFunctions.Add(innerStateMinimizedTransitionFunctions);
             }
+                //foreach (KeyValuePair<string, HashSet<string>> matchingMinimizedStateToStates in matchingMinimizedStatesToStates)
+                //{
+                //    List<string> innerStateMinimizedTransitionFunctions = new List<string>();
+                //    foreach (List<string> innerStateTransitionFunctions in TransitionFunctions)
+                //    {
+                //        foreach(string innerStateTransitionFunction in )
+                //        foreach (KeyValuePair<string, HashSet<string>> localMatchingMinimizedStateToStates in matchingMinimizedStatesToStates)
+                //        {
+                //            if (localMatchingMinimizedStateToStates.Value.Contains(innerStateTransitionFunctions[States.IndexOf(matchingMinimizedStateToStates.Value.First())]))
+                //            {
+                //                innerStateMinimizedTransitionFunctions.Add(localMatchingMinimizedStateToStates.Key);
+                //            }
+                //        }
+                //    }
+                //    //if (minimizedTransitionFunctions.Count != innerStateMinimizedTransitionFunctions.Count)
+                //    //{
+                //    //    foreach (string transitionFunction in innerStateMinimizedTransitionFunctions)
+                //    //    {
+                //    //        minimizedTransitionFunctions.Add(new List<string>() { transitionFunction });
+                //    //    }
+                //    //}
+                //    //else
+                //    //{
+                //    //    for (int i = 0; i < minimizedTransitionFunctions.Count; i++)
+                //    //    {
+                //    //        minimizedTransitionFunctions[i].Add(innerStateMinimizedTransitionFunctions[i]);
+                //    //    }
+                //    //}
+                //}
 
-            return minimizedTransitionFunctions;
+                return minimizedTransitionFunctions;
         }
 
         private List<string> GetMinimizedOutputAlphabet(Dictionary<string, HashSet<string>> matchingMinimizedStatesToStates)
